@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <section>
+      <div class="container">
+        <div class="drag-move" style="--top: 30px; --left: 90px"></div>
+      </div>
+    </section>
+
+    <script>
+      const container = document.querySelector(".container");
+      const dragMove = container.querySelector(".drag-move");
+
+      dragMoveW = dragMove.offsetWidth / 2;
+      dragMoveH = dragMove.offsetHeight / 2;
+
+      // top and left Style/var()
+      const setTopLeftStyle = (el, propertyName, value) => {
+        el.style.setProperty(propertyName, value);
+      };
+
+      const grab = () => {
+        const coordinates = [{ x: 35, y: 20 }];
+        let isDragging = false;
+
+        container.addEventListener("mousemove", (e) => {
+          const containerTop = container.getBoundingClientRect();
+
+          if (isDragging) {
+            const currentCoordinates = {
+              x: e.clientX - Math.floor(containerTop.x),
+              y: e.clientY - Math.floor(containerTop.y),
+            };
+
+            coordinates[coordinates.length - 1] = currentCoordinates;
+            console.table(coordinates);
+            
+            setTopLeftStyle(
+              dragMove,
+              "--top",
+              `${coordinates[coordinates.length - 1].y - dragMoveH}px`
+            );
+            setTopLeftStyle(
+              dragMove,
+              "--left",
+              `${coordinates[coordinates.length - 1].x - dragMoveW}px`
+            );
+
+            // Update the last coordinate in the array
+          }
+        });
+
+        dragMove.addEventListener("mousedown", () => {
+          isDragging = true;
+          console.log(isDragging);
+
+          // Set the final position after releasing the mouse
+        });
+
+        dragMove.addEventListener("mouseup", () => {
+          isDragging = false;
+          console.log(isDragging);
+        });
+      };
+
+      grab();
+
+      //   dragMove.addEventListener("mousedown", () => {
+      //       setTopLeftStyle(dragMove, "--top", `${top - dragMoveH}px`);
+      //       setTopLeftStyle(dragMove, "--left", `${left - dragMoveW}px`);
+      //     });
+
+      //     dragMove.addEventListener("mouseup", () => {
+      //       setTopLeftStyle(dragMove, "--top", `${top - dragMoveH}px`);
+      //       setTopLeftStyle(dragMove, "--left", `${left - dragMoveW}px`);
+      //     });
+    </script>
+  </body>
+</html>

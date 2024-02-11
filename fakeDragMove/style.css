@@ -1,0 +1,33 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+section {
+  display: grid;
+  place-content: center;
+  height: 100vh;
+  background-color: #111111;
+}
+
+.container {
+  position: relative;
+  width: 60vw;
+  height: 80vh;
+  background-color: #121212;
+  border: solid 1px #eaeaea;
+  border-radius: 14px;
+}
+
+.drag-move {
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  background-color: #f16141;
+  position: absolute;
+  /* pointer-events: none; */
+  cursor: grab;
+  left:var(--left);
+  top: var(--top);
+}
