@@ -1,0 +1,85 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+body {
+  background-color: #eaeaea;
+}
+/* Para navegadores que suportam scrollbar-width (Firefox) */
+body {
+  scrollbar-width: 12px; /* Pode ser 'auto', 'thin', 'none' ou um valor em pixels */
+}
+
+/* Para navegadores baseados em WebKit (Chrome, Safari) */
+body::-webkit-scrollbar {
+  width: 12px; /* Largura do scroll vertical */
+  /* Largura do scroll horizontal (quando suportado) */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #888; /* Cor da "alça" do scroll */
+}
+
+body::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Cor de fundo da área do scroll */
+}
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+section {
+  height: 300vh;
+  position: relative;
+}
+h1 {
+  font-size: 2rem;
+  padding: 20px 0;
+  text-align: center;
+  color: #141414;
+}
+.fixed {
+  height: 100vh;
+  display: grid;
+  place-content: center;
+  position: sticky;
+  top: 1px;
+  /* background-color: #186223; */
+}
+img {
+  height: 100vh;
+  width: calc(100vw - 12px);
+  object-fit: cover;
+  clip-path: inset(var(--top) var(--right) var(--bottom) var(--left));
+}
+
+@media screen and (max-width: 700px) {
+  img {
+    width: 100vw;
+  }
+}
+
+.resto {
+  height: 100vh;
+  display: grid;
+  place-content: center;
+}

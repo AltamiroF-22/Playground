@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="data-lenis-prevent">
+      <section class="section">
+        <h1>Scroll-Down</h1>
+        <div class="fixed">
+          <img
+            src="./img/2b.jpg"
+          />
+        </div>
+      </section>
+      <div class="resto">
+        <h1>End :)</h1>
+      </div>
+    </div>
+
+    <!-- lenis scroll smooth -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+    <script>
+      const lenis = new Lenis();
+
+      lenis.on("scroll", (e) => {
+    
+      });
+
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+
+      requestAnimationFrame(raf);
+
+      const section = document.querySelector(".section");
+      const fixed = section.querySelector("div");
+      const image = fixed.querySelector("img");
+
+      class ClipPathScroll {
+        constructor(element, propertyName, initialValue) {
+          this.element = element;
+          this.propertyName = propertyName;
+          this.value = initialValue;
+          this.setVarStyle();
+          this.startScrollEvent();
+        }
+
+        setVarStyle() {
+          this.element.style.setProperty(this.propertyName, this.value);
+        }
+
+        startScrollEvent() {
+          window.addEventListener("scroll", this.handleScroll.bind(this));
+        }
+
+        handleScroll(event) {
+          const scrollY = window.scrollY;
+          const sectionOffsetH = section.offsetHeight;
+          const sectionOffsetW = section.offsetWidth;
+
+          // Calcula os novos valores baseados no scroll
+          const topValue = 50 - (scrollY / sectionOffsetH) * 70;
+          const bottomValue = 50 - (scrollY / sectionOffsetH) * 70;
+          // const leftValue = 50 - (scrollY / sectionOffsetW) * 70;
+          // const rightValue = 50 - (scrollY / sectionOffsetW) * 70;
+
+          // Atualiza as propriedades individualmente
+          this.element.style.setProperty("--top", `${topValue}%`);
+          this.element.style.setProperty("--bottom", `${bottomValue}%`);
+          // this.element.style.setProperty("--left", `${leftValue}%`);
+          // this.element.style.setProperty("--right", `${rightValue}%`);
+        }
+      }
+
+      // Cria instâncias independentes para cada propriedade
+      const imageTop = new ClipPathScroll(image, "--top", "70%");
+      const imageBottom = new ClipPathScroll(image, "--bottom", "70%");
+      const imageLeft = new ClipPathScroll(image, "--left", "0%");
+      const imageRight = new ClipPathScroll(image, "--right", "0%");
+    </script>
+  </body>
+</html>
