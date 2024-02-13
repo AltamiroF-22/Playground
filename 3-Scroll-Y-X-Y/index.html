@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Scroll Y - X - Y</title>
+  </head>
+  <body>
+    <section class="top">
+      <h1>Hello world</h1>
+    </section>
+    <main class="scrollX">
+      <div class="transtaleX">
+        <section class="sec"><h1>section 1</h1></section>
+        <section class="sec"><h1>section 2</h1></section>
+        <section class="sec"><h1>section 3</h1></section>
+        <section class="sec"><h1>section 4</h1></section>
+      </div>
+    </main>
+    <section class="bottom">
+      <h1>end :)</h1>
+    </section>
+
+    <!-- lenis scroll smooth -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+
+    <script>
+      const scrollX = document.querySelector(".scrollX");
+      const transtaleX = document.querySelector(".transtaleX");
+
+      class TranstaleX {
+        constructor(element, propertyName, initialValue) {
+          this.element = element;
+          this.propertyName = propertyName;
+          this.value = initialValue;
+          this.setVarStyle();
+          this.startScrollEvent();
+        }
+
+        setVarStyle() {
+          this.element.style.setProperty(this.propertyName, this.value);
+        }
+
+        startScrollEvent() {
+          window.addEventListener("scroll", this.handleScroll.bind(this));
+        }
+
+        handleScroll(event) {
+          const scrollY = window.scrollY;
+          const translate = transtaleX.getBoundingClientRect();
+          const translateTopValue = translate.y;
+          const sectionOffsetH = scrollX.offsetHeight;
+
+          this.element.style.setProperty("--TranslateX", `0vw`);
+
+          if (translateTopValue === 1) {
+            const scrollXValue = Math.floor(
+              (scrollY / sectionOffsetH) * 401 - 100
+            );
+            this.element.style.setProperty(
+              "--TranslateX",
+              `${-scrollXValue}vw`
+            );
+          } else if (translateTopValue < 0) {
+            this.element.style.setProperty("--TranslateX", `-300vw`);
+          }
+        }
+      }
+
+      const test = new TranstaleX(transtaleX, "--TranslateX", "0");
+    </script>
+  </body>
+</html>
