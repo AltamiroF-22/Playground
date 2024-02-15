@@ -1,0 +1,32 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+body {
+  min-height: 100dvh;
+  width: 100%;
+  display: grid;
+  place-content: center;
+  background-color: #000;
+}
+
+.text {
+  position: absolute;
+  display: flex;
+  gap: 20px;
+  min-width: 200px;
+  backdrop-filter: blur(50px);
+  padding: 10px 30px;
+  background-color: #ffffff12;
+  border-radius: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+p {
+  color: #f1f6f4;
+  font-size: 20px;
+}

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <canvas id="myCanvas">
+      Your browser does not support the HTML canvas tag.
+    </canvas>
+
+    <!-- <div class="text">
+      <p class="count x">count x hits: 30</p>
+      <p class="count y">count y hits: 70</p>
+      <p class="count b">count all hits: 100</p>
+    </div> -->
+
+    <script>
+      const canvas = document.getElementById("myCanvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      let countXHits = 0;
+      let countYHits = 0;
+      let countAllHits = countXHits + countYHits;
+
+      let size = 2000;
+      
+      let pX = 150;
+      let pY = 90;
+      
+      // obstacle
+      obstacleWidth = 100;
+      obstacleHeight = 100;
+      obstacleX = (canvas.width - obstacleWidth) / 2;
+      obstacleY = (canvas.height - obstacleHeight) / 2;
+      
+      const randomDirectionX = Math.ceil(Math.random() * 30);
+      const randomDirectionY = Math.ceil(Math.random() * 30);
+      const randomRadius = Math.ceil(Math.random() * 30);
+      
+
+      let radius = randomRadius;
+      let directionX = randomDirectionX;
+      let directionY = randomDirectionY;
+
+      function getRandomColor() {
+        // Gera valores aleatórios para os componentes RGB
+        const red = Math.floor(Math.random() * 256);
+        const green = Math.floor(Math.random() * 256);
+        const blue = Math.floor(Math.random() * 256);
+
+        // Converte os valores para o formato hexadecimal
+        const redHex = red.toString(16).padStart(2, "0");
+        const greenHex = green.toString(16).padStart(2, "0");
+        const blueHex = blue.toString(16).padStart(2, "0");
+
+        // Retorna a cor aleatória em formato hexadecimal
+        return `#${redHex}${greenHex}${blueHex}`;
+      }
+
+      let randomColor = getRandomColor();
+
+      const changeRadius = () => {
+        radius = (Math.random() * size) / 10;
+      };
+
+      const changeDirection = () => {
+        if (pX - radius < 0 || pX > canvas.width - radius) {
+          directionX = directionX * -1;
+          randomColor = getRandomColor();
+        }
+
+        if (pY - radius < 0 || pY > canvas.height - radius) {
+          directionY = directionY * -1;
+          randomColor = getRandomColor();
+        }
+
+        // Verifica colisão com o obstáculo
+        const isCollidingX =
+          pX + radius > obstacleX && pX - radius < obstacleX + obstacleWidth;
+        const isCollidingY =
+          pY + radius > obstacleY && pY - radius < obstacleY + obstacleHeight;
+
+        if (isCollidingX && isCollidingY) {
+          // Verifica se a colisão é do lado ou superior/inferior
+          const centerX = obstacleX + obstacleWidth / 2;
+          const centerY = obstacleY + obstacleHeight / 2;
+
+          if (Math.abs(pX - centerX) > Math.abs(pY - centerY)) {
+            // Colisão do lado, altera a direção em X
+            directionX = directionX * -1;
+
+            // Move a bola para fora do obstáculo
+            if (pX < centerX) {
+              pX = obstacleX - radius;
+            } else {
+              pX = obstacleX + obstacleWidth + radius;
+            }
+          } else {
+            // Colisão superior/inferior, altera a direção em Y
+            directionY = directionY * -1;
+
+            // Move a bola para fora do obstáculo
+            if (pY < centerY) {
+              pY = obstacleY - radius;
+            } else {
+              pY = obstacleY + obstacleHeight + radius;
+            }
+          }
+
+          randomColor = getRandomColor();
+        }
+
+        pX += directionX;
+        pY += directionY;
+      };
+
+      //obstacle
+      const drawObstacle = () => {
+        ctx.beginPath();
+        ctx.rect(obstacleX, obstacleY, obstacleWidth, obstacleHeight);
+        ctx.fillStyle = randomColor;
+        ctx.fill();
+      };
+
+      //circle
+      const drawCircle = () => {
+        ctx.beginPath();
+        ctx.arc(pX, pY, radius, 0, 2 * Math.PI);
+        ctx.fillStyle = randomColor;
+        ctx.fill();
+      };
+
+      const animate = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        drawCircle();
+        drawObstacle();
+
+        changeDirection();
+
+        requestAnimationFrame(animate);
+      };
+
+      animate();
+    </script>
+  </body>
+</html>

@@ -26,18 +26,19 @@ body {
 
 .scrollX {
   height: 400vh;
-
   position: relative;
-  background-color: #3838cd;
 }
 
 .transtaleX {
   display: flex;
   position: sticky;
+  /* position: fixed; */
+  width: 400vw;
   top: 1px;
-  transform: translateX(-300vw);
+  /* transform: translateX(-300vw); */
   transform: translateX(var(--TranslateX));
 }
+
 .sec {
   min-width: 100vw;
   height: 100vh;
