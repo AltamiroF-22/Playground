@@ -11,41 +11,45 @@
       Your browser does not support the HTML canvas tag.
     </canvas>
 
-    <!-- <div class="text">
-      <p class="count x">count x hits: 30</p>
-      <p class="count y">count y hits: 70</p>
-      <p class="count b">count all hits: 100</p>
-    </div> -->
 
     <script>
+      //  __________________________________
+      // |                                  |
+      // |  don't take this code seriously  |
+      // |__________________________________|
+
       const canvas = document.getElementById("myCanvas");
       const ctx = canvas.getContext("2d");
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
 
-      let countXHits = 0;
-      let countYHits = 0;
-      let countAllHits = countXHits + countYHits;
-
       let size = 2000;
-      
+
       let pX = 150;
       let pY = 90;
-      
+
       // obstacle
-      obstacleWidth = 100;
-      obstacleHeight = 100;
-      obstacleX = (canvas.width - obstacleWidth) / 2;
-      obstacleY = (canvas.height - obstacleHeight) / 2;
-      
+      obstacleWidth = 29;
+      obstacleHeight = 29;
+      obstacleX = 100;
+      obstacleY = 400;
+
       const randomDirectionX = Math.ceil(Math.random() * 30);
       const randomDirectionY = Math.ceil(Math.random() * 30);
-      const randomRadius = Math.ceil(Math.random() * 30);
-      
 
-      let radius = randomRadius;
+      let radius = 10;
       let directionX = randomDirectionX;
       let directionY = randomDirectionY;
+
+      let newX = 100;
+      let newY = 100;
+
+      const path = [
+        { x: 100, y: 430 },
+        { x: 100, y: 460 },
+        { x: 130, y: 460 },
+        { x: 160, y: 460 },
+      ];
 
       function getRandomColor() {
         // Gera valores aleatórios para os componentes RGB
@@ -63,10 +67,6 @@
       }
 
       let randomColor = getRandomColor();
-
-      const changeRadius = () => {
-        radius = (Math.random() * size) / 10;
-      };
 
       const changeDirection = () => {
         if (pX - radius < 0 || pX > canvas.width - radius) {
@@ -92,6 +92,7 @@
 
           if (Math.abs(pX - centerX) > Math.abs(pY - centerY)) {
             // Colisão do lado, altera a direção em X
+
             directionX = directionX * -1;
 
             // Move a bola para fora do obstáculo
@@ -102,6 +103,7 @@
             }
           } else {
             // Colisão superior/inferior, altera a direção em Y
+
             directionY = directionY * -1;
 
             // Move a bola para fora do obstáculo
@@ -135,12 +137,40 @@
         ctx.fill();
       };
 
+      // obstacle new position
+
+      const obstacleNewPosition = () => {
+        for (let i = 0; i < path.length; i++) {
+          ctx.beginPath();
+          ctx.rect(path[i].x, path[i].y, obstacleWidth, obstacleHeight);
+          ctx.fillStyle = randomColor;
+          ctx.fill();
+        }
+      };
+      const att = () => {
+        setInterval(() => {
+          if (path[0].y > canvas.height - 30) {
+            path.shift();
+            newY = 0;
+            path.push({ x: newX, y: 0 });
+          }
+          path.shift();
+          newX += 0;
+          newY += 30;
+
+          path.push({ x: newX, y: newY });
+          // console.table(path);
+        }, 80);
+      };
+      att();
+
       const animate = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         drawCircle();
         drawObstacle();
 
+        obstacleNewPosition();
         changeDirection();
 
         requestAnimationFrame(animate);
