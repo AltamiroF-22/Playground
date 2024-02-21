@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- fonts -->
+    <link
+      href="https://api.fontshare.com/v2/css?f[]=beVietnam-pro@900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- styles -->
+    <link rel="stylesheet" href="style.css" />
+    <title>Parallax text</title>
+  </head>
+  <body>
+    <div class="data-lenis-prevent">
+      <main>
+        <section>
+          <div class="image">
+            <h1 style="--marginTop: -0px">TORONTO</h1>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+    <script>
+      window.addEventListener("load", () => {
+        const container = document.querySelector(".image");
+        const text = container.querySelector("h1");
+
+        window.addEventListener("scroll", () => {
+          const scrollY = window.scrollY;
+
+          text.style.marginTop = `-${scrollY * 0.5}px`;
+        });
+
+        //lenis
+        const lenis = new Lenis();
+
+        lenis.on("scroll", (e) => {});
+
+        function raf(time) {
+          lenis.raf(time);
+          requestAnimationFrame(raf);
+        }
+
+        requestAnimationFrame(raf);
+      });
+    </script>
+  </body>
+</html>

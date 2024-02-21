@@ -11,7 +11,6 @@
       Your browser does not support the HTML canvas tag.
     </canvas>
 
-
     <script>
       //  __________________________________
       // |                                  |
@@ -31,8 +30,8 @@
       // obstacle
       obstacleWidth = 29;
       obstacleHeight = 29;
-      obstacleX = 100;
-      obstacleY = 400;
+      obstacleX = canvas.width / 2 + 5;
+      obstacleY = canvas.height / 2 + 5;
 
       const randomDirectionX = Math.ceil(Math.random() * 30);
       const randomDirectionY = Math.ceil(Math.random() * 30);
