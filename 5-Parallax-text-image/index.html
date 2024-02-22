@@ -13,26 +13,149 @@
     <title>Parallax text</title>
   </head>
   <body>
+    <div class="loading">
+      <img class="" src="./svg/loader.svg" />
+    </div>
     <div class="data-lenis-prevent">
-      <main>
-        <section>
-          <div class="image">
-            <h1 style="--marginTop: -0px">TORONTO</h1>
+      <main class="main-top">
+        <section class="sec-top">
+          <div class="text-top-parallax">
+            <h1>TORONTO</h1>
           </div>
         </section>
+      </main>
+
+      <main class="gallery">
+        <div class="overflow">
+          <div class="image">
+            <img src="./img/4.jpg" />
+          </div>
+        </div>
+        <div class="overflow">
+          <div class="image">
+            <img src="./img/5.jpg" />
+          </div>
+        </div>
+        <div class="overflow">
+          <div class="image">
+            <img src="./img/6.jpg" />
+          </div>
+        </div>
+        <div class="overflow">
+          <div class="image">
+            <img src="./img/7.jpg" />
+          </div>
+        </div>
+        <div class="overflow">
+          <div class="image">
+            <img src="./img/8.jpg" />
+          </div>
+        </div>
+        <div class="overflow">
+          <div class="image">
+            <img src="./img/9.jpg" />
+          </div>
+        </div>
+        <div class="overflow">
+          <div class="image">
+            <img src="./img/10.jpg" />
+          </div>
+        </div>
+        <div class="overflow">
+          <div class="image">
+            <img src="./img/11.jpg" />
+          </div>
+        </div>
+        <div class="overflow">
+          <div class="image">
+            <img src="./img/12.jpg" />
+          </div>
+        </div>
+        <div class="overflow">
+          <div class="image">
+            <img src="./img/13.jpg" />
+          </div>
+        </div>
+        <div class="overflow">
+          <div class="image">
+            <img src="./img/14.jpg" />
+          </div>
+        </div>
+        <div class="overflow">
+          <div class="image">
+            <img src="./img/15.jpg" />
+          </div>
+        </div>
+        <div class="overflow">
+          <div class="image">
+            <img src="./img/16.jpg" />
+          </div>
+        </div>
+        <div class="overflow">
+          <div class="image">
+            <img src="./img/17.jpg" />
+          </div>
+        </div>
+        <div class="overflow">
+          <div class="image">
+            <img src="./img/18.jpg" />
+          </div>
+        </div>
+        <div class="overflow">
+          <div class="image">
+            <img src="./img/19.jpg" />
+          </div>
+        </div>
+        <div class="overflow">
+          <div class="image">
+            <img src="./img/20.jpg" />
+          </div>
+        </div>
+        <div class="overflow">
+          <div class="image">
+            <img src="./img/21.jpg" />
+          </div>
+        </div>
       </main>
     </div>
 
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
     <script>
+      // title
+      const loading = document.querySelector(".loading");
+      const page = document.querySelector(".data-lenis-prevent");
+
       window.addEventListener("load", () => {
-        const container = document.querySelector(".image");
+        loading.style.display = "none";
+        page.style.display = "block";
+
+        //title
+        const container = document.querySelector(".text-top-parallax");
         const text = container.querySelector("h1");
 
         window.addEventListener("scroll", () => {
           const scrollY = window.scrollY;
 
-          text.style.marginTop = `-${scrollY * 0.5}px`;
+          if (scrollY < 300) {
+            text.style.marginTop = `-${scrollY * 0.5}px`;
+          }
+        });
+
+        //gallery
+        const image = document.querySelectorAll(".image > img");
+
+        image.forEach((e) => {
+          window.addEventListener("scroll", () => {
+            const bounding = e.getBoundingClientRect();
+            const scrollY = window.scrollY;
+
+            const individualOffset = bounding.y - e.offsetHeight;
+
+            if (individualOffset < scrollY) {
+              const transformValue = -individualOffset / 10;
+              e.style.transform = `translate(-50%, ${transformValue}px)`;
+            }
+          });
         });
 
         //lenis
