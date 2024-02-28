@@ -1,0 +1,93 @@
+body {
+  background-color: #000000;
+  min-height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+main {
+  width: 100vw;
+  height: 30vh;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  perspective: none;
+  animation: rotationTest 4s infinite linear;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+.box {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background-color: #323232;
+}
+
+.b1,
+.b2,
+.b3,
+.b4,
+.b5
+/*,
+ .b6  */ {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  transform-origin: 0% 0%;
+}
+
+.b1 {
+  background-color: hsla(227, 100%, 50%, 0.502);
+
+  transform: translate(300px, 200px) rotateX(90deg);
+}
+
+.b2 {
+  background-color: hsla(182, 100%, 50%, 0.502);
+
+  transform: translate(300px, 300px) rotateX(90deg);
+}
+
+.b3 {
+  background-color: hsla(250, 100%, 50%, 0.502);
+
+  transform: translate(300px, 200px);
+}
+
+.b4 {
+  background-color: hsla(203, 100%, 50%, 0.502);
+
+  transform: translate(300px, 200px) rotateZ(90deg) rotateX(-90deg);
+  transform-origin: 100% 100%;
+}
+
+.b5 {
+  background-color: hsla(280, 100%, 50%, 0.502);
+
+  transform: translate(300px, 200px) rotateZ(180deg) rotateX(-90deg)
+    rotateY(-90deg);
+  transform-origin: 0% 100%;
+}
+
+/* .b6 {
+  background-color: hsl(0, 100%, 50%);
+  transform: translate(300px, 200px) rotateZ(0deg) rotateX(-40deg);
+} */
+
+@keyframes rotationTest {
+  0% {
+    transform: rotate3d(1, 80, 1, 0deg);
+  }
+
+  25% {
+    transform: rotate3d(1, 80, 1, 90deg);
+  }
+  75% {
+    transform: rotate3d(80, 1, 1, 90deg);
+  }
+  100% {
+    transform: rotate3d(80, 1, 1, 360deg);
+  }
+}
