@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        display: grid;
+        place-content: center;
+        height: 100vh;
+      }
+    </style>
+    <title>Collision Example</title>
+  </head>
+  <body>
+    <script>
+      //  __________________________________
+      // |                                  |
+      // |  don't take this code seriously  |
+      // |__________________________________|
+
+      const balls = [];
+
+      function setup() {
+        createCanvas(window.innerWidth - 10, window.innerHeight - 10);
+        for (let i = 0; i < 20; i++) {
+          balls.push(new Ball(random(width), random(height), 10));
+        }
+      }
+
+      function draw() {
+        background(220);
+
+        for (const ball of balls) {
+          ball.update();
+          ball.display();
+          ball.checkCollision(balls);
+        }
+      }
+
+      class Ball {
+        constructor(x, y, radius) {
+          this.position = createVector(x, y);
+          this.velocity = createVector(random(-2, 2), random(-2, 2));
+          this.radius = radius;
+          this.randomColor = this.getRandomColor();
+        }
+
+        update() {
+          // Reduz a magnitude do vetor de velocidade gradualmente
+          const desaceleracao = 0.998; // Altere o valor conforme necessário
+          // this.velocity.mult(desaceleracao);
+
+          this.position.add(this.velocity);
+
+          // Borda da tela
+          if (
+            this.position.x - this.radius < 0 ||
+            this.position.x + this.radius > width
+          ) {
+            this.velocity.x *= -1;
+          }
+          if (
+            this.position.y - this.radius < 0 ||
+            this.position.y + this.radius > height
+          ) {
+            this.velocity.y *= -1;
+          }
+        }
+
+        getRandomColor() {
+          // Gera valores aleatórios para os componentes RGB
+          const red = Math.floor(Math.random() * 256);
+          const green = Math.floor(Math.random() * 256);
+          const blue = Math.floor(Math.random() * 256);
+
+          // Converte os valores para o formato hexadecimal
+          const redHex = red.toString(16).padStart(2, "0");
+          const greenHex = green.toString(16).padStart(2, "0");
+          const blueHex = blue.toString(16).padStart(2, "0");
+
+          // Retorna a cor aleatória em formato hexadecimal
+          return `#${redHex}${greenHex}${blueHex}`;
+        }
+
+        display() {
+          fill(this.randomColor);
+          // strokeWeight(0);
+          ellipse(this.position.x, this.position.y, this.radius * 2);
+        }
+
+        checkCollision(otherBalls) {
+          for (const otherBall of otherBalls) {
+            if (otherBall !== this) {
+              const dx = otherBall.position.x - this.position.x;
+              const dy = otherBall.position.y - this.position.y;
+              const distance = dist(
+                this.position.x,
+                this.position.y,
+                otherBall.position.x,
+                otherBall.position.y
+              );
+
+              if (distance < this.radius + otherBall.radius) {
+                // Colisão detectada
+
+                const angle = atan2(dy, dx);
+                const targetX =
+                  this.position.x +
+                  cos(angle) * (this.radius + otherBall.radius);
+                const targetY =
+                  this.position.y +
+                  sin(angle) * (this.radius + otherBall.radius);
+
+                const ax = (targetX - otherBall.position.x) * 0.1;
+                const ay = (targetY - otherBall.position.y) * 0.1;
+
+                otherBall.velocity.x += ax;
+                otherBall.velocity.y += ay;
+              }
+            }
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
